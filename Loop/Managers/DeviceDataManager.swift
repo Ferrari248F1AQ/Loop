@@ -367,6 +367,28 @@ final class DeviceDataManager {
             if let status = pumpManager?.status {
                 updatePumpIsAllowingAutomation(status: status)
             }
+            if let pump = pumpManager, pump.isExternalAlgorithmActive {
+                let mgdlUnit = HKUnit.milligramsPerDeciliter
+                let latestSettings = settingsManager.latestSettings
+
+                let isfEntries: [(TimeInterval, Double)] = latestSettings.insulinSensitivitySchedule.map { schedule in
+                    schedule.items.map { item in
+                        (item.startTime, HKQuantity(unit: schedule.unit, doubleValue: item.value).doubleValue(for: mgdlUnit))
+                    }
+                } ?? []
+
+                let targetEntries: [(TimeInterval, Double)] = latestSettings.glucoseTargetRangeSchedule.map { schedule in
+                    schedule.items.map { item in
+                        let midpoint = (item.value.minValue + item.value.maxValue) / 2.0
+                        return (item.startTime, HKQuantity(unit: schedule.unit, doubleValue: midpoint).doubleValue(for: mgdlUnit))
+                    }
+                } ?? []
+
+                pump.updateTherapySettingsForExternalAlgorithm(
+                    insulinSensitivities: isfEntries,
+                    glucoseTargets: targetEntries
+                )
+            }
         } else {
             pumpManager = nil
         }
@@ -584,6 +606,14 @@ final class DeviceDataManager {
                 if !values.isEmpty {
                     DispatchQueue.main.async {
                         self.cgmStalenessMonitor.cgmGlucoseSamplesAvailable(values)
+                    }
+                    // Forward latest glucose to pump for on-device algorithm relay
+                    if let latest = values.last,
+                       let pump = self.pumpManager,
+                       pump.isExternalAlgorithmActive
+                    {
+                        let mgdl = Int(latest.quantity.doubleValue(for: .milligramsPerDeciliter))
+                        pump.updateLatestGlucoseForExternalAlgorithm(mgdl: mgdl, date: latest.date)
                     }
                 }
                 completion()
@@ -1413,6 +1443,10 @@ extension DeviceDataManager: LoopDataManagerDelegate {
         pumpManager?.estimatedDuration(toBolus: units)
     }
 
+    var isExternalAlgorithmActive: Bool {
+        return pumpManager?.isExternalAlgorithmActive ?? false
+    }
+
     func loopDataManager(
         _ manager: LoopDataManager,
         didRecommend automaticDose: (recommendation: AutomaticDoseRecommendation, date: Date),
@@ -1660,6 +1694,30 @@ extension DeviceDataManager: TherapySettingsViewModelDelegate {
             settings.defaultRapidActingModel = therapySettings.defaultRapidActingModel
             settings.carbRatioSchedule = therapySettings.carbRatioSchedule
             settings.insulinSensitivitySchedule = therapySettings.insulinSensitivitySchedule
+        }
+
+        if let pump = pumpManager, pump.isExternalAlgorithmActive {
+            let mgdlUnit = HKUnit.milligramsPerDeciliter
+
+            let isfEntries: [(TimeInterval, Double)] = therapySettings.insulinSensitivitySchedule.map { schedule in
+                schedule.items.map { item in
+                    let valueMgdl = HKQuantity(unit: schedule.unit, doubleValue: item.value).doubleValue(for: mgdlUnit)
+                    return (item.startTime, valueMgdl)
+                }
+            } ?? []
+
+            let targetEntries: [(TimeInterval, Double)] = therapySettings.glucoseTargetRangeSchedule.map { schedule in
+                schedule.items.map { item in
+                    let midpoint = (item.value.minValue + item.value.maxValue) / 2.0
+                    let valueMgdl = HKQuantity(unit: schedule.unit, doubleValue: midpoint).doubleValue(for: mgdlUnit)
+                    return (item.startTime, valueMgdl)
+                }
+            } ?? []
+
+            pump.updateTherapySettingsForExternalAlgorithm(
+                insulinSensitivities: isfEntries,
+                glucoseTargets: targetEntries
+            )
         }
     }
     

@@ -886,7 +886,14 @@ extension LoopDataManager {
             var (dosingDecision, error) = self.update(for: .loop)
 
             if error == nil, self.automaticDosingStatus.automaticDosingEnabled == true {
-                error = self.enactRecommendedAutomaticDose()
+                if self.delegate?.isExternalAlgorithmActive == true {
+                    // An external algorithm (e.g. Insulet O5 AID) is controlling dosing.
+                    // Loop still runs its prediction/display pipeline but does not enact doses.
+                    self.logger.default("External algorithm active — skipping Loop dose enactment.")
+                    self.recommendedAutomaticDose = nil
+                } else {
+                    error = self.enactRecommendedAutomaticDose()
+                }
             } else {
                 self.logger.default("Not adjusting dosing during open loop.")
             }
@@ -2357,6 +2364,11 @@ protocol LoopDataManagerDelegate: AnyObject {
 
     /// The cgm manager status, if one exists.
     var cgmManagerStatus: CGMManagerStatus? { get }
+
+    /// Whether an external dosing algorithm (e.g. Insulet O5 AID) is active.
+    /// When true, Loop calculates predictions and IOB but does not enact
+    /// temp basals or auto-boluses — the external algorithm controls delivery.
+    var isExternalAlgorithmActive: Bool { get }
 }
 
 private extension TemporaryScheduleOverride {
