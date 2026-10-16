@@ -43,7 +43,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\n%1$@\n\n%2$@ werkt met Gesloten Loop in de AAN stand"
+            "value" : "\n%1$@\n\n%2$@ werkt met Actieve loop AAN"
           }
         },
         "pl" : {
@@ -132,7 +132,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\n%1$@\n\nAtingeți pictogramele de stare ale CGM și ale pompei de insulină pentru mai multe informații. %2$@ va continua să încerce să finalizeze o buclă, dar verificați eventualele probleme de comunicare cu pompa și CGM-ul dumneavoastră."
+            "value" : "\n%1$@\n\nAtingeți pictogramele de stare ale senzorului de glicemie și ale pompei de insulină pentru mai multe informații. %2$@ va continua să încerce să finalizeze o buclă, dar verificați eventualele probleme de comunicare cu pompa și senzorul dumneavoastră de glicemie."
           }
         },
         "ru" : {
@@ -209,7 +209,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\n%1$@\n\n Atingeți pictogramele de stare pentru CGM și pompa de insulină pentru mai multe informații. %2$@ va continua să încerce să finalizeze o buclă, dar urmăriți eventualele probleme de comunicare cu pompa și CGM."
+            "value" : "\n%1$@\n\n Atingeți pictogramele de stare ale senzorului de glicemie și ale pompei de insulină pentru mai multe informații. %2$@ va continua să încerce să finalizeze o buclă, dar urmăriți eventualele probleme de comunicare cu pompa și cu senzorul de glicemie."
           }
         },
         "ru" : {
@@ -274,7 +274,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\n%1$@ werkt met Gesloten Loop in de UIT stand. Je pomp en CGM blijven werken, maar de app past de dosering niet automatisch aan.\n\n%2$@"
+            "value" : "\n%1$@ werkt met Actieve loop UIT. Je pomp en CGM blijven werken, maar de app past de dosering niet automatisch aan.\n\n%2$@"
           }
         },
         "pl" : {
@@ -286,7 +286,7 @@
         "ro" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\n%1$@ operează cu bucla închisă în poziția OFF. Pompa și CGM vor continua să funcționeze, dar aplicația nu va ajusta automat dozarea. \n\n %2$@"
+            "value" : "\n%1$@ operează cu bucla închisă în poziția OFF. Pompa și senzorul de glicemie vor continua să funcționeze, dar aplicația nu va ajusta automat dozarea. \n\n %2$@"
           }
         },
         "ru" : {
@@ -685,7 +685,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ 单位"
+            "value" : "%@ U"
           }
         }
       }
@@ -1476,7 +1476,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gesloten loop"
+            "value" : "Actieve loop"
           }
         },
         "pl" : {
@@ -1577,7 +1577,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gesloten Loop UIT"
+            "value" : "Actieve loop UIT"
           }
         },
         "pl" : {
@@ -1666,7 +1666,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gesloten Loop AAN"
+            "value" : "Actieve loop AAN"
           }
         },
         "pl" : {
@@ -1819,6 +1819,12 @@
           }
         },
         "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dB"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "dB"
@@ -2453,6 +2459,12 @@
             "state" : "translated",
             "value" : "Döngü Uyarısı"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loop 警告"
+          }
         }
       }
     },
@@ -3010,7 +3022,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open loop"
+            "value" : "Inactieve loop"
           }
         },
         "pl" : {
@@ -3231,7 +3243,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tik op Instellingen om Gesloten Loop AAN te zetten als je wilt dat de app je insulinetoediening automatiseert."
+            "value" : "Tik op Instellingen om Actieve loop AAN te zetten als je wilt dat de app je insulinetoediening automatiseert."
           }
         },
         "pl" : {
@@ -3378,6 +3390,12 @@
           }
         },
         "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "U"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "U"

@@ -960,7 +960,17 @@ extension DeviceDataManager {
     }
 
     func updatePumpManagerBLEHeartbeatPreference() {
-        pumpManager?.setMustProvideBLEHeartbeat(pumpManagerMustProvideBLEHeartbeat)
+        guard pumpManagerMustProvideBLEHeartbeat else {
+            pumpManager?.setBLEHeartbeatRequest(nil)
+            return
+        }
+        // Tell the pump when the last CGM reading landed and how often readings are expected, so it can
+        // schedule its next heartbeat to arrive just after the next reading is due (the pump adds its own
+        // buffer for the remote CGM value to be fetched and stored).
+        let request = PumpHeartbeatRequest(
+            lastCGMReadingDate: glucoseStore.latestGlucose?.startDate,
+            expectedCGMReadingInterval: cgmManager?.expectedGlucoseSampleInterval ?? .minutes(5))
+        pumpManager?.setBLEHeartbeatRequest(request)
     }
 }
 
@@ -970,7 +980,11 @@ extension DeviceDataManager: DeviceManagerDelegate {
     func deviceManager(_ manager: DeviceManager, logEventForDeviceIdentifier deviceIdentifier: String?, type: DeviceLogEntryType, message: String, completion: ((Error?) -> Void)?) {
         deviceLog.log(managerIdentifier: manager.pluginIdentifier, deviceIdentifier: deviceIdentifier, type: type, message: message, completion: completion)
     }
-    
+
+    func deviceManager(_ manager: DeviceManager, recordAnalyticsEvent name: String, properties: [AnyHashable: Any]?) {
+        analyticsServicesManager.deviceManagerDidRecordEvent(name, properties: properties)
+    }
+
     var allowDebugFeatures: Bool {
         FeatureFlags.allowDebugFeatures // NOTE: DEBUG FEATURES - DEBUG AND TEST ONLY
     }
