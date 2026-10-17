@@ -402,6 +402,16 @@ final class DeviceDataManager {
             }
         }
 
+        if let pump = pumpManager,
+           pump.isExternalAlgorithmActive,
+           let cgm = cgmManager,
+           let sensorId = cgm.sensorIdentifier {
+            pump.configureCgmForExternalAlgorithm(
+                cgmIdentifier: cgm.pluginIdentifier,
+                transmitterId: sensorId
+            )
+        }
+
         //TODO The instantiation of these non-device related managers should be moved to LoopAppManager, and then LoopAppManager can wire up the connections between them.
         statusExtensionManager = ExtensionDataManager(deviceDataManager: self, automaticDosingStatus: automaticDosingStatus)
 
@@ -1100,6 +1110,15 @@ extension DeviceDataManager: CGMManagerOnboardingDelegate {
     func cgmManagerOnboarding(didOnboardCGMManager cgmManager: CGMManagerUI) {
         precondition(cgmManager.isOnboarded)
         log.default("CGM manager with identifier '%{public}@' onboarded", cgmManager.pluginIdentifier)
+
+        if let pump = pumpManager,
+           pump.isExternalAlgorithmActive,
+           let sensorId = cgmManager.sensorIdentifier {
+            pump.configureCgmForExternalAlgorithm(
+                cgmIdentifier: cgmManager.pluginIdentifier,
+                transmitterId: sensorId
+            )
+        }
 
         DispatchQueue.main.async {
             self.refreshDeviceData()
