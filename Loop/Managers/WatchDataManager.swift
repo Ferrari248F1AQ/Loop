@@ -402,6 +402,11 @@ final class WatchDataManager: NSObject {
                 case .success(let storedCarbEntry):
                     dosingDecision.carbEntry = storedCarbEntry
                     self.deviceManager.analyticsServicesManager.didAddCarbs(source: "Watch", amount: storedCarbEntry.quantity.doubleValue(for: .gram()))
+                    self.deviceManager.pumpManager?.recordCarbEntryForExternalAlgorithm(
+                        date: carbEntry.startDate,
+                        grams: carbEntry.quantity.doubleValue(for: .gram()),
+                        absorptionTime: carbEntry.absorptionTime ?? 10800
+                    )
                     enactBolus()
                 case .failure(let error):
                     self.log.error("%{public}@", String(describing: error))

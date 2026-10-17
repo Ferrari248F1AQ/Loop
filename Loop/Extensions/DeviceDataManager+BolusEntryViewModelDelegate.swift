@@ -40,7 +40,16 @@ extension DeviceDataManager: BolusEntryViewModelDelegate, ManualDoseViewModelDel
     }
 
     func addCarbEntry(_ carbEntry: NewCarbEntry, replacing replacingEntry: StoredCarbEntry?, completion: @escaping (Result<StoredCarbEntry>) -> Void) {
-        loopManager.addCarbEntry(carbEntry, replacing: replacingEntry, completion: completion)
+        loopManager.addCarbEntry(carbEntry, replacing: replacingEntry) { [weak self] result in
+            if case .success = result {
+                self?.pumpManager?.recordCarbEntryForExternalAlgorithm(
+                    date: carbEntry.startDate,
+                    grams: carbEntry.quantity.doubleValue(for: .gram()),
+                    absorptionTime: carbEntry.absorptionTime ?? 10800
+                )
+            }
+            completion(result)
+        }
     }
 
     func storeManualBolusDosingDecision(_ bolusDosingDecision: BolusDosingDecision, withDate date: Date) {
