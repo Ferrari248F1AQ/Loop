@@ -1155,6 +1155,20 @@ extension DeviceDataManager: PumpManagerDelegate {
         completion(nil)
     }
 
+    func pumpManager(_ pumpManager: PumpManager, didRequestInsulinSensitivityScheduleChange schedule: InsulinSensitivitySchedule, completion: @escaping (Error?) -> Void) {
+        var therapySettings = self.loopManager.therapySettings
+        therapySettings.insulinSensitivitySchedule = schedule
+        self.saveCompletion(therapySettings: therapySettings)
+        completion(nil)
+    }
+
+    func pumpManager(_ pumpManager: PumpManager, didRequestCarbRatioScheduleChange schedule: CarbRatioSchedule, completion: @escaping (Error?) -> Void) {
+        var therapySettings = self.loopManager.therapySettings
+        therapySettings.carbRatioSchedule = schedule
+        self.saveCompletion(therapySettings: therapySettings)
+        completion(nil)
+    }
+
     func pumpManagerBLEHeartbeatDidFire(_ pumpManager: PumpManager) {
         dispatchPrecondition(condition: .onQueue(queue))
         log.default("PumpManager:%{public}@ did fire heartbeat", String(describing: type(of: pumpManager)))
