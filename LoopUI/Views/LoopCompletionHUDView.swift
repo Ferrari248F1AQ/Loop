@@ -24,10 +24,42 @@ public final class LoopCompletionHUDView: BaseHUDView {
         }
     }
 
+    private lazy var algorithmBadge: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 7, weight: .bold)
+        label.textAlignment = .center
+        label.textColor = .white
+        label.layer.cornerRadius = 6
+        label.clipsToBounds = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+
+    public var isExternalAlgorithmActive: Bool = false {
+        didSet {
+            if isExternalAlgorithmActive {
+                algorithmBadge.text = "S"
+                algorithmBadge.backgroundColor = .systemOrange
+                algorithmBadge.isHidden = false
+            } else {
+                algorithmBadge.isHidden = true
+            }
+        }
+    }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
 
         updateDisplay(nil)
+
+        addSubview(algorithmBadge)
+        NSLayoutConstraint.activate([
+            algorithmBadge.widthAnchor.constraint(equalToConstant: 12),
+            algorithmBadge.heightAnchor.constraint(equalToConstant: 12),
+            algorithmBadge.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -2),
+            algorithmBadge.topAnchor.constraint(equalTo: topAnchor, constant: 2),
+        ])
     }
 
     public var loopIconClosed = false {

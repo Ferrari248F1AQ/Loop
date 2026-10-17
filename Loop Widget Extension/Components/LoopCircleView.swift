@@ -17,14 +17,26 @@ struct LoopCircleView: View {
         let lastLoopCompleted = entry.lastLoopCompleted ?? Date().addingTimeInterval(.minutes(16))
         let age = abs(min(0, lastLoopCompleted.timeIntervalSinceNow))
         let freshness = LoopCompletionFreshness(age: age)
-        
+
         let loopColor = getLoopColor(freshness: freshness)
-        
-        Circle()
-            .trim(from: closeLoop ? 0 : 0.2, to: 1)
-            .stroke(entry.contextIsStale ? Color(UIColor.systemGray3) : loopColor, lineWidth: 8)
-            .rotationEffect(Angle(degrees: -126))
-            .frame(width: 36, height: 36)
+
+        ZStack {
+            Circle()
+                .trim(from: closeLoop ? 0 : 0.2, to: 1)
+                .stroke(entry.contextIsStale ? Color(UIColor.systemGray3) : loopColor, lineWidth: 8)
+                .rotationEffect(Angle(degrees: -126))
+                .frame(width: 36, height: 36)
+
+            if entry.isExternalAlgorithmActive {
+                Text("S")
+                    .font(.system(size: 7, weight: .bold))
+                    .foregroundColor(.white)
+                    .frame(width: 12, height: 12)
+                    .background(Color.orange)
+                    .clipShape(Circle())
+                    .offset(x: 12, y: -12)
+            }
+        }
     }
     
     func getLoopColor(freshness: LoopCompletionFreshness) -> Color {

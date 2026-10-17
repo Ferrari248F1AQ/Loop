@@ -310,7 +310,8 @@ struct StatusExtensionContext: RawRepresentable {
     var cgmStatusHighlightContext: DeviceStatusHighlightContext?
     var cgmLifecycleProgressContext: DeviceLifecycleProgressContext?
     var carbsOnBoard: Double?
-    
+    var isExternalAlgorithmActive: Bool?
+
     init() { }
     
     init?(rawValue: RawValue) {
@@ -335,6 +336,7 @@ struct StatusExtensionContext: RawRepresentable {
         batteryPercentage = rawValue["batteryPercentage"] as? Double
         reservoirCapacity = rawValue["reservoirCapacity"] as? Double
         carbsOnBoard = rawValue["carbsOnBoard"] as? Double
+        isExternalAlgorithmActive = rawValue["isExternalAlgorithmActive"] as? Bool
 
         if let rawValue = rawValue["glucoseDisplay"] as? GlucoseDisplayableContext.RawValue {
             glucoseDisplay = GlucoseDisplayableContext(rawValue: rawValue)
@@ -383,7 +385,8 @@ struct StatusExtensionContext: RawRepresentable {
         raw["cgmStatusHighlightContext"] = cgmStatusHighlightContext?.rawValue
         raw["cgmLifecycleProgressContext"] = cgmLifecycleProgressContext?.rawValue
         raw["carbsOnBoard"] = carbsOnBoard
-        
+        raw["isExternalAlgorithmActive"] = isExternalAlgorithmActive
+
         return raw
     }
 }

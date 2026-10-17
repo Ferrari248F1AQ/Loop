@@ -33,6 +33,7 @@ struct StatusWidgetTimelimeEntry: TimelineEntry {
     let preMealPresetAllowed: Bool
     let preMealPresetActive: Bool
     let customPresetActive: Bool
+    let isExternalAlgorithmActive: Bool
     
     // Whether context data is old
     var contextIsStale: Bool {

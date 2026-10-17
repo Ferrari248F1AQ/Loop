@@ -417,6 +417,7 @@ final class StatusTableViewController: LoopChartsTableViewController {
 
         // This should be kept up to date immediately
         hudView?.loopCompletionHUD.lastLoopCompleted = deviceManager.loopManager.lastLoopCompleted
+        hudView?.loopCompletionHUD.isExternalAlgorithmActive = deviceManager.isExternalAlgorithmActive
 
         guard !reloading && !deviceManager.authorizationRequired else {
             return
@@ -1698,6 +1699,7 @@ final class StatusTableViewController: LoopChartsTableViewController {
             hudView.loopCompletionHUD.stateColors = .loopStatus
             hudView.loopCompletionHUD.loopIconClosed = automaticDosingStatus.automaticDosingEnabled
             hudView.loopCompletionHUD.lastLoopCompleted = deviceManager.loopManager.lastLoopCompleted
+            hudView.loopCompletionHUD.isExternalAlgorithmActive = deviceManager.isExternalAlgorithmActive
 
             hudView.cgmStatusHUD.stateColors = .cgmStatus
             hudView.cgmStatusHUD.tintColor = .label
@@ -2072,6 +2074,8 @@ extension StatusTableViewController: PumpManagerStatusObserver {
 
         basalDeliveryState = status.basalDeliveryState
         bolusState = status.bolusState
+
+        hudView?.loopCompletionHUD.isExternalAlgorithmActive = pumpManager.isExternalAlgorithmActive
 
         refreshContext.update(with: .status)
         reloadData(animated: true)

@@ -37,7 +37,7 @@ class StatusWidgetTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> StatusWidgetTimelimeEntry {
         log.default("%{public}@: context=%{public}@", #function, String(describing: context))
 
-        return StatusWidgetTimelimeEntry(date: Date(), contextUpdatedAt: Date(), lastLoopCompleted: nil, closeLoop: true, currentGlucose: nil, glucoseFetchedAt: Date(), delta: nil, unit: .milligramsPerDeciliter, sensor: nil, pumpHighlight: nil, netBasal: nil, eventualGlucose: nil, preMealPresetAllowed: true, preMealPresetActive: false, customPresetActive: false)
+        return StatusWidgetTimelimeEntry(date: Date(), contextUpdatedAt: Date(), lastLoopCompleted: nil, closeLoop: true, currentGlucose: nil, glucoseFetchedAt: Date(), delta: nil, unit: .milligramsPerDeciliter, sensor: nil, pumpHighlight: nil, netBasal: nil, eventualGlucose: nil, preMealPresetAllowed: true, preMealPresetActive: false, customPresetActive: false, isExternalAlgorithmActive: false)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (StatusWidgetTimelimeEntry) -> ()) {
@@ -169,7 +169,8 @@ class StatusWidgetTimelineProvider: TimelineProvider {
                 eventualGlucose: eventualGlucose,
                 preMealPresetAllowed: preMealPresetAllowed,
                 preMealPresetActive: preMealPresetActive,
-                customPresetActive: customPresetActive
+                customPresetActive: customPresetActive,
+                isExternalAlgorithmActive: context.isExternalAlgorithmActive ?? false
             )
 
             self.log.default("StatusWidgetTimelimeEntry = %{public}@", String(describing: entry))

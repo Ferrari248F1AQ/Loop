@@ -116,7 +116,8 @@ final class ExtensionDataManager {
             context.lastLoopCompleted = lastLoopCompleted
             
             context.isClosedLoop = self.automaticDosingStatus.automaticDosingEnabled
-            
+            context.isExternalAlgorithmActive = self.deviceManager.isExternalAlgorithmActive
+
             context.preMealPresetAllowed = self.automaticDosingStatus.automaticDosingEnabled && manager.settings.preMealTargetRange != nil
             context.preMealPresetActive = manager.settings.preMealTargetEnabled()
             context.customPresetActive = manager.settings.nonPreMealOverrideEnabled()
