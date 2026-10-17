@@ -388,6 +388,11 @@ final class DeviceDataManager {
                     insulinSensitivities: isfEntries,
                     glucoseTargets: targetEntries
                 )
+
+                let icrEntries: [(TimeInterval, Double)] = latestSettings.carbRatioSchedule.map { schedule in
+                    schedule.items.map { ($0.startTime, $0.value) }
+                } ?? []
+                pump.updateCarbRatioScheduleForExternalAlgorithm(carbRatios: icrEntries)
             }
         } else {
             pumpManager = nil
@@ -1772,9 +1777,14 @@ extension DeviceDataManager: TherapySettingsViewModelDelegate {
                 insulinSensitivities: isfEntries,
                 glucoseTargets: targetEntries
             )
+
+            let icrEntries: [(TimeInterval, Double)] = therapySettings.carbRatioSchedule.map { schedule in
+                schedule.items.map { ($0.startTime, $0.value) }
+            } ?? []
+            pump.updateCarbRatioScheduleForExternalAlgorithm(carbRatios: icrEntries)
         }
     }
-    
+
     func pumpSupportedIncrements() -> PumpSupportedIncrements? {
         return pumpManager.map {
             PumpSupportedIncrements(basalRates: $0.supportedBasalRates,
