@@ -389,6 +389,8 @@ final class DeviceDataManager {
                     glucoseTargets: targetEntries
                 )
 
+                pump.updateISFScheduleForExternalAlgorithm(isfEntries: isfEntries)
+
                 let icrEntries: [(TimeInterval, Double)] = latestSettings.carbRatioSchedule.map { schedule in
                     schedule.items.map { ($0.startTime, $0.value) }
                 } ?? []
@@ -1777,6 +1779,8 @@ extension DeviceDataManager: TherapySettingsViewModelDelegate {
                 insulinSensitivities: isfEntries,
                 glucoseTargets: targetEntries
             )
+
+            pump.updateISFScheduleForExternalAlgorithm(isfEntries: isfEntries)
 
             let icrEntries: [(TimeInterval, Double)] = therapySettings.carbRatioSchedule.map { schedule in
                 schedule.items.map { ($0.startTime, $0.value) }
