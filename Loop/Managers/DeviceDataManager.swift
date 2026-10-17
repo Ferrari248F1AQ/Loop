@@ -403,7 +403,6 @@ final class DeviceDataManager {
         }
 
         if let pump = pumpManager,
-           pump.isExternalAlgorithmActive,
            let cgm = cgmManager,
            let sensorId = cgm.sensorIdentifier {
             pump.configureCgmForExternalAlgorithm(
@@ -624,6 +623,15 @@ final class DeviceDataManager {
                     {
                         let mgdl = Int(latest.quantity.doubleValue(for: .milligramsPerDeciliter))
                         pump.updateLatestGlucoseForExternalAlgorithm(mgdl: mgdl, date: latest.date)
+                    }
+
+                    // Late CGM config: G7 sensorID may not be available at onboarding
+                    if let pump = self.pumpManager,
+                       let sensorId = manager.sensorIdentifier {
+                        pump.configureCgmForExternalAlgorithm(
+                            cgmIdentifier: manager.pluginIdentifier,
+                            transmitterId: sensorId
+                        )
                     }
                 }
                 completion()
@@ -1112,7 +1120,6 @@ extension DeviceDataManager: CGMManagerOnboardingDelegate {
         log.default("CGM manager with identifier '%{public}@' onboarded", cgmManager.pluginIdentifier)
 
         if let pump = pumpManager,
-           pump.isExternalAlgorithmActive,
            let sensorId = cgmManager.sensorIdentifier {
             pump.configureCgmForExternalAlgorithm(
                 cgmIdentifier: cgmManager.pluginIdentifier,
