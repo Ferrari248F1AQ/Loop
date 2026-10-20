@@ -79,6 +79,7 @@ public class SettingsViewModel: ObservableObject {
     let sensitivityOverridesEnabled: Bool
     let isOnboardingComplete: Bool
     let therapySettingsViewModelDelegate: TherapySettingsViewModelDelegate?
+    var therapyInsightsManager: TherapyInsightsManager?
 
     @Published var isClosedLoopAllowed: Bool
 

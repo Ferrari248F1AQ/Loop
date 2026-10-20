@@ -269,6 +269,8 @@ extension SettingsView {
         .environment(\.insulinTintColor, self.insulinTintColor)
     }
 
+    @State private var therapyInsightsReport: RegressionReport?
+
     private var configurationSection: some View {
         Section(header: SectionHeader(label: NSLocalizedString("Configuration", comment: "The title of the Configuration section in settings"))) {
             NavigationLink(destination: therapySettingsView) {
@@ -279,6 +281,16 @@ extension SettingsView {
                             descriptiveText: NSLocalizedString("Diabetes Treatment", comment: "Descriptive text for Therapy Settings"))
             }
 
+            if viewModel.therapyInsightsManager != nil {
+                NavigationLink(destination: therapyInsightsDestination) {
+                    LargeButton(action: { },
+                                includeArrow: false,
+                                imageView: Image(systemName: "chart.line.uptrend.xyaxis"),
+                                label: NSLocalizedString("Therapy Insights", comment: "Title text for Therapy Insights"),
+                                descriptiveText: NSLocalizedString("15-day analysis of your settings", comment: "Descriptive text for Therapy Insights"))
+                }
+            }
+
             ForEach(pluginMenuItems.filter {$0.section == .configuration}) { item in
                 item.view
             }
@@ -286,6 +298,34 @@ extension SettingsView {
             if FeatureFlags.allowAlgorithmExperiments {
                 algorithmExperimentsSection
             }
+        }
+    }
+
+    @ViewBuilder
+    private var therapyInsightsDestination: some View {
+        if let report = therapyInsightsReport {
+            TherapyInsightsView(
+                report: report,
+                onApplyBasal: { suggestion in
+                    viewModel.therapyInsightsManager?.applyBasalSuggestion(suggestion)
+                },
+                onApplyISF: { suggestion in
+                    viewModel.therapyInsightsManager?.applyISFSuggestion(suggestion)
+                },
+                onApplyICR: { suggestion in
+                    viewModel.therapyInsightsManager?.applyICRSuggestion(suggestion)
+                },
+                onApplyAll: { [report] in
+                    viewModel.therapyInsightsManager?.applyAllSuggestions(from: report)
+                }
+            )
+        } else {
+            ProgressView()
+                .onAppear {
+                    viewModel.therapyInsightsManager?.generateReport { report in
+                        self.therapyInsightsReport = report
+                    }
+                }
         }
     }
 

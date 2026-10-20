@@ -1621,6 +1621,13 @@ final class StatusTableViewController: LoopChartsTableViewController {
                                                   activeServices: { [weak self] in self?.deviceManager.servicesManager.activeServices ?? [] },
                                                   delegate: self)
         let versionUpdateViewModel = VersionUpdateViewModel(supportManager: supportManager, guidanceColors: .default)
+        let insightsManager = TherapyInsightsManager(
+            glucoseStore: deviceManager.glucoseStore,
+            doseStore: deviceManager.doseStore,
+            carbStore: deviceManager.carbStore,
+            therapySettings: { [weak self] in self?.deviceManager.loopManager.therapySettings ?? TherapySettings() }
+        )
+
         let viewModel = SettingsViewModel(alertPermissionsChecker: alertPermissionsChecker,
                                           alertMuter: alertMuter,
                                           versionUpdateViewModel: versionUpdateViewModel,
@@ -1637,6 +1644,8 @@ final class StatusTableViewController: LoopChartsTableViewController {
                                           isOnboardingComplete: onboardingManager.isComplete,
                                           therapySettingsViewModelDelegate: deviceManager,
                                           delegate: self)
+        insightsManager.therapySettingsDelegate = deviceManager
+        viewModel.therapyInsightsManager = insightsManager
         let hostingController = DismissibleHostingController(
             rootView: SettingsView(viewModel: viewModel, localizedAppNameAndVersion: supportManager.localizedAppNameAndVersion)
                 .environmentObject(deviceManager.displayGlucosePreference)
