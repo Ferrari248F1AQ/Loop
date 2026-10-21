@@ -193,6 +193,7 @@
 		43D9FFD721EAE05D00AF44BF /* LoopCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 43D9FFCF21EAE05D00AF44BF /* LoopCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		43D9FFFB21EAF3D300AF44BF /* NSTimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439897341CD2F7DE00223065 /* NSTimeInterval.swift */; };
 		43DBF0531C93EC8200B3C386 /* DeviceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DBF0521C93EC8200B3C386 /* DeviceDataManager.swift */; };
+		FA0E000326D6FA0000000005 /* TherapyInsightsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0E000326D6FA0000000006 /* TherapyInsightsManager.swift */; };
 		43DFB62320D4CAE7008A7BAE /* PumpManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C3B6F620BBCAA30026CAFA /* PumpManager.swift */; };
 		43E3449F1B9D68E900C85C07 /* StatusTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3449E1B9D68E900C85C07 /* StatusTableViewController.swift */; };
 		43E93FB51E4675E800EAB8DB /* NumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BFF0B31E45C1BE00FF19A9 /* NumberFormatter.swift */; };
@@ -952,6 +953,7 @@
 		43D9FFD121EAE05D00AF44BF /* LoopCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoopCore.h; sourceTree = "<group>"; };
 		43D9FFD221EAE05D00AF44BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43DBF0521C93EC8200B3C386 /* DeviceDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DeviceDataManager.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		FA0E000326D6FA0000000006 /* TherapyInsightsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapyInsightsManager.swift; sourceTree = "<group>"; };
 		43DE92581C5479E4001FFDE1 /* PotentialCarbEntryUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PotentialCarbEntryUserInfo.swift; sourceTree = "<group>"; };
 		43E2D90B1D20C581004DA55F /* LoopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		43E2D90F1D20C581004DA55F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2046,6 +2048,7 @@
 				A96DAC2B2838F31200D94E38 /* SharedLogging.swift */,
 				7E69CFFB2A16A77E00203CBD /* ResetLoopManager.swift */,
 				84AA81E42A4A3981000B658B /* DeeplinkManager.swift */,
+				FA0E000326D6FA0000000006 /* TherapyInsightsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -3447,6 +3450,7 @@
 				A9CBE45A248ACBE1008E7BA2 /* DosingDecisionStore+SimulatedCoreData.swift in Sources */,
 				A9C62D8A2331703100535612 /* ServicesManager.swift in Sources */,
 				43DBF0531C93EC8200B3C386 /* DeviceDataManager.swift in Sources */,
+				FA0E000326D6FA0000000005 /* TherapyInsightsManager.swift in Sources */,
 				A9347F2F24E7508A00C99C34 /* WatchHistoricalCarbs.swift in Sources */,
 				A9B996F027235191002DC09C /* LoopWarning.swift in Sources */,
 				C17824A01E19CF9800D9D25C /* GlucoseThresholdTableViewController.swift in Sources */,
